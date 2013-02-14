@@ -37,15 +37,21 @@ public class ThriftTracingServiceImpl implements TracingService {
    public Charset charset = Charset.forName("UTF-8");
    public CharsetEncoder encoder = charset.newEncoder();
    private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(ThriftTracingServiceImpl.class);
+   private String category;
    
    
    public ThriftTracingServiceImpl(){}
    
+   
+   @Override
    public void initialize(String scribeHost, int scribePort){
       this.scribeHost = scribeHost;
       this.scribePort = scribePort;
-
+      this.category = SCRIBE_CATEGORY;
       
+      if(isConnectionOpen()){
+         transport.close();
+      }
       connect();
    }
 
@@ -91,11 +97,12 @@ public class ThriftTracingServiceImpl implements TracingService {
          try {
             //String message = String.format("%s %s %s", hostname, layout.format(event), stackTrace.toString());
             String message = String.format("%s %s %s", scribeHost, "Message", request.getPathInfo());
-            LogEntry entry = new LogEntry(SCRIBE_CATEGORY, encodeMessage(message));
+            LogEntry entry = new LogEntry(category, encodeMessage(message));
             //LogEntry entry = new LogEntry(scribeHost, null);
             logEntries.add(entry);
             client.Log(logEntries);
          } catch (TTransportException e) {
+            LOG.warn("Unable to open transport to scribe host: " + scribeHost + ":" + scribePort);
             transport.close();
          } catch (Exception e) {
             System.err.println(e);
@@ -115,6 +122,11 @@ public class ThriftTracingServiceImpl implements TracingService {
       }
       return null;
    }
+   
+   @Override
+   public void closeConnection(){
+      transport.close();
+   }
 
    @Override
    public void destroy() throws DestroyFailedException {
@@ -125,6 +137,11 @@ public class ThriftTracingServiceImpl implements TracingService {
 
    @Override
    public boolean isDestroyed() {
-      throw new UnsupportedOperationException("Not supported yet.");
+      return !isConnectionOpen();
+   }
+
+   @Override
+   public void setCategory(String category) {
+      this.category = category;
    }
 }

@@ -12,4 +12,8 @@ public interface TracingService extends Destroyable {
    public void logTraceEvent(HttpServletRequest request);
 
    public boolean isConnectionOpen();
+   
+   public void closeConnection();
+   
+   public void setCategory(String category);
 }
