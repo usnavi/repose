@@ -21,6 +21,7 @@
    <packaging>jar</packaging>
 
    <dependencies>
+
       <dependency>
          <groupId>net.sf.ehcache</groupId>
          <artifactId>ehcache-core</artifactId>
@@ -131,6 +132,14 @@
          <artifactId>jetty-servlet</artifactId>
          <version>8.0.1.v20110908</version>
       </dependency>
+
+      <dependency>
+         <groupId>com.rackspace.papi.service</groupId>
+         <artifactId>tracing-service</artifactId>
+         <version>2.6.2-SNAPSHOT</version>
+         <type>jar</type>
+      </dependency>
+
       <!--
       <dependency>
           <groupId>com.rackspace.papi.core</groupId>

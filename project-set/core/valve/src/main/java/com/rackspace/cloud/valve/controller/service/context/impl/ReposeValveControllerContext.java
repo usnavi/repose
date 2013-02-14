@@ -137,8 +137,6 @@ public class ReposeValveControllerContext implements ServiceContext<ControllerSe
 
             controllerService.setIsInsecure(isInsecure);
 
-
-
             Map<String, ExtractorResult<Node>> updatedSystem = getLocalReposeInstances(systemModel);
 
 

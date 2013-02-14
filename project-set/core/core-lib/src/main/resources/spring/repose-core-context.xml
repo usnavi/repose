@@ -55,5 +55,7 @@
     <bean name="log4jLoggingService" class="com.rackspace.papi.service.logging.LoggingServiceImpl">
         <constructor-arg index="0" value="LOG4J"/>
     </bean>
+    
+    <bean id="tracingService" class="com.rackspace.tracing.impl.ThriftTracingServiceImpl" autowire="constructor"/>
 
 </beans>

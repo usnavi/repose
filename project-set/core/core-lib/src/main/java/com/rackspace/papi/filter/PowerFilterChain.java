@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.rackspace.service.tracing.TracingService;
 
 /**
  * @author fran
@@ -41,8 +42,10 @@ public class PowerFilterChain implements FilterChain {
     private RequestTracer tracer = null;
     private boolean filterChainAvailable;
     private ReposeInstanceInfo instanceInfo;
+    private TracingService tracingService;
 
-    public PowerFilterChain(List<FilterContext> filterChainCopy, FilterChain containerFilterChain, ResourceMonitor resourceMontior, PowerFilterRouter router, ReposeInstanceInfo instanceInfo) throws PowerFilterChainException {
+    public PowerFilterChain(List<FilterContext> filterChainCopy, FilterChain containerFilterChain, ResourceMonitor resourceMontior, PowerFilterRouter router,
+            ReposeInstanceInfo instanceInfo, TracingService tracingService) throws PowerFilterChainException {
 
         this.filterChainCopy = new LinkedList<FilterContext>(filterChainCopy);
         this.containerFilterChain = containerFilterChain;
@@ -50,6 +53,7 @@ public class PowerFilterChain implements FilterChain {
         this.resourceMonitor = resourceMontior;
         this.router = router;
         this.instanceInfo = instanceInfo;
+        this.tracingService = tracingService;
         Thread.currentThread().setName(instanceInfo.toString());
     }
 
@@ -62,7 +66,7 @@ public class PowerFilterChain implements FilterChain {
             currentFilters = getFilterChainForRequest(request.getRequestURI());
             filterChainAvailable = isCurrentFilterChainAvailable();
             servletRequest.setAttribute("filterChainAvailableForRequest", filterChainAvailable);
-
+            tracingService.logTraceEvent(request);
             doFilter(servletRequest, servletResponse);
         } finally {
             resourceMonitor.released();
@@ -146,6 +150,7 @@ public class PowerFilterChain implements FilterChain {
 
             if (isResponseOk(mutableHttpResponse)) {
                 router.route(mutableHttpRequest, mutableHttpResponse);
+                tracingService.logTraceEvent(mutableHttpRequest);
             }
         } catch (Exception ex) {
             LOG.error("Failure in filter within container filter chain. Reason: " + ex.getMessage(), ex);

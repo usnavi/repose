@@ -14,6 +14,7 @@ import com.rackspace.papi.service.reporting.ReportingService;
 import com.rackspace.papi.service.rms.ResponseMessageService;
 import com.rackspace.papi.service.routing.RoutingService;
 import com.rackspace.papi.service.threading.ThreadingService;
+import com.rackspace.service.tracing.TracingService;
 
 public interface ContextAdapter {
 
@@ -32,6 +33,7 @@ public interface ContextAdapter {
     String getReposeVersion();
     RequestHeaderService requestHeaderService();
     ResponseHeaderService responseHeaderService();
+    TracingService getTracingService();
     <T> T filterChainBuilder();
     
    <T extends ServiceContext<?>> T getContext(Class<T> clazz);
