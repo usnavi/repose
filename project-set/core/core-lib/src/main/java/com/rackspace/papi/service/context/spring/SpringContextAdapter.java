@@ -17,6 +17,7 @@ import com.rackspace.papi.service.reporting.ReportingService;
 import com.rackspace.papi.service.rms.ResponseMessageService;
 import com.rackspace.papi.service.routing.RoutingService;
 import com.rackspace.papi.service.threading.ThreadingService;
+import com.rackspace.service.tracing.TracingService;
 import org.springframework.context.ApplicationContext;
 
 public class SpringContextAdapter implements ContextAdapter {
@@ -133,5 +134,10 @@ public class SpringContextAdapter implements ContextAdapter {
     @Override
     public ResponseHeaderService responseHeaderService() {
         return getService(ServiceContextName.RESPONSE_HEADER_SERVICE_CONTEXT);
+    }
+    
+    @Override
+    public TracingService getTracingService(){
+       return getService(ServiceContextName.TRACING_SERVICE_CONTEXT);
     }
 }

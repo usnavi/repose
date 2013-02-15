@@ -14,6 +14,7 @@ import com.rackspace.papi.service.deploy.ArtifactManagerServiceContext;
 import com.rackspace.papi.service.threading.impl.ThreadingServiceContext;
 import com.rackspace.papi.servlet.InitParameter;
 import com.rackspace.papi.spring.SpringConfiguration;
+import com.rackspace.papi.tracing.TracingServiceContext;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -116,6 +117,7 @@ public class PowerApiContextManager implements ServletContextListener {
       ca.getContext(ReportingServiceContext.class).contextInitialized(sce);
       ca.getContext(RequestHeaderServiceContext.class).contextInitialized(sce);
       ca.getContext(ResponseHeaderServiceContext.class).contextInitialized(sce);
+      ca.getContext(TracingServiceContext.class).contextInitialized(sce);
 
       // Start management server
       if (isManagementServerEnabled()) {

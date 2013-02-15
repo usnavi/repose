@@ -89,6 +89,7 @@ public class ReposeValveControllerContext implements ServiceContext<ControllerSe
    @Override
    public void contextDestroyed(ServletContextEvent sce) {
       configurationManager.unsubscribeFrom("system-model.cfg.xml", systemModelConfigurationListener);
+      configurationManager.unsubscribeFrom("container.cfg.xml", containerConfigurationListener);
       Set<String> instances = controllerService.getManagedInstances();
       controllerService.updateManagedInstances(null, instances);
       curNodes.clear();
@@ -136,8 +137,6 @@ public class ReposeValveControllerContext implements ServiceContext<ControllerSe
             }
 
             controllerService.setIsInsecure(isInsecure);
-
-
 
             Map<String, ExtractorResult<Node>> updatedSystem = getLocalReposeInstances(systemModel);
 

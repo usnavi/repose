@@ -4,6 +4,7 @@ import com.rackspace.papi.domain.ReposeInstanceInfo;
 import com.rackspace.papi.filter.resource.ResourceConsumerCounter;
 import com.rackspace.papi.model.Node;
 import com.rackspace.papi.model.ReposeCluster;
+import com.rackspace.service.tracing.TracingService;
 import java.util.List;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletContext;
@@ -29,14 +30,16 @@ public class PowerFilterChainBuilderImpl implements PowerFilterChainBuilder {
     private ReposeCluster domain;
     private Node localhost;
     private ReposeInstanceInfo instanceInfo;
-
+    private TracingService tracingService;
     @Autowired
-    public PowerFilterChainBuilderImpl(@Qualifier("powerFilterRouter") PowerFilterRouter router, @Qualifier("reposeInstanceInfo") ReposeInstanceInfo instanceInfo) {
+    public PowerFilterChainBuilderImpl(@Qualifier("powerFilterRouter") PowerFilterRouter router, @Qualifier("reposeInstanceInfo") ReposeInstanceInfo instanceInfo
+            , @Qualifier("tracingService") TracingService tracingService) {
         Thread.currentThread().setName(instanceInfo.toString());
         LOG.info("Creating filter chain builder");
         this.router = router;
         this.resourceConsumerMonitor = new ResourceConsumerCounter();
         this.instanceInfo = instanceInfo;
+        this.tracingService = tracingService;
     }
 
     @Override
@@ -58,7 +61,7 @@ public class PowerFilterChainBuilderImpl implements PowerFilterChainBuilder {
         if (router == null) {
             throw new PowerFilterChainException("Power Filter Router has not been initialized yet.");
         }
-        return new PowerFilterChain(currentFilterChain, containerFilterChain, resourceConsumerMonitor, router, instanceInfo);
+        return new PowerFilterChain(currentFilterChain, containerFilterChain, resourceConsumerMonitor, router, instanceInfo, tracingService);
     }
 
     @Override

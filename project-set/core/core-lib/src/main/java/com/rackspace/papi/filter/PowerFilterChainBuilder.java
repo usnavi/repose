@@ -4,6 +4,7 @@ import com.rackspace.papi.commons.util.Destroyable;
 import com.rackspace.papi.filter.resource.ResourceConsumerCounter;
 import com.rackspace.papi.model.Node;
 import com.rackspace.papi.model.ReposeCluster;
+import com.rackspace.service.tracing.TracingService;
 import java.util.List;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletContext;

@@ -5,6 +5,8 @@ import com.rackspace.papi.filter.resource.ResourceMonitor;
 import com.rackspace.papi.service.context.ServletContextHelper;
 import com.rackspace.papi.service.context.container.ContainerConfigurationService;
 import com.rackspace.papi.service.context.impl.RoutingServiceContext;
+import com.rackspace.service.tracing.TracingService;
+import com.rackspace.tracing.impl.ThriftTracingServiceImpl;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
@@ -47,12 +49,14 @@ public class RequestFilterChainStateTest {
             when(appContext.getBean(anyString())).thenReturn(routingContext);
             filterContextList.add(mockedFilterContext);
             FilterChain mockedFilterChain = mock(FilterChain.class);
+            
+            TracingService tracingService = new ThriftTracingServiceImpl();
 
             ServletContextHelper instance = ServletContextHelper.configureInstance(context, appContext);
             when(context.getAttribute(ServletContextHelper.SERVLET_CONTEXT_HELPER)).thenReturn(instance);
 
             ReposeInstanceInfo instanceInfo = new ReposeInstanceInfo("repose", "node");
-            PowerFilterChain powerFilterChainState = new PowerFilterChain(filterContextList, mockedFilterChain, mock(ResourceMonitor.class), mock(PowerFilterRouter.class),instanceInfo);
+            PowerFilterChain powerFilterChainState = new PowerFilterChain(filterContextList, mockedFilterChain, mock(ResourceMonitor.class), mock(PowerFilterRouter.class),instanceInfo, tracingService);
 
             HttpServletRequest mockedServletRequest = mock(HttpServletRequest.class);
             HttpServletResponse mockedServletResponse = mock(HttpServletResponse.class);
