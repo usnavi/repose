@@ -14,9 +14,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class GenericTrace {
 
-   private final String TRACE_ID_HEADER = "x-b3-traceid";
-   private final String SPAN_ID_HEADER = "x-b3-spanid";
-   private final String PARENT_SPAN_ID_HEADER = "x-b3-parentspanid";
    private final String DEFAULT_NAME = "Repose Name";
    String traceId;
    String spanId;
@@ -51,8 +48,8 @@ public class GenericTrace {
    private void determineSpan(HttpServletRequest request) {
 
 
-      this.traceId = request.getHeader(TRACE_ID_HEADER) != null ? request.getHeader(TRACE_ID_HEADER) : genId();
-      this.parentId = request.getHeader(SPAN_ID_HEADER) != null ? request.getHeader(SPAN_ID_HEADER) : genId();
+      this.traceId = request.getHeader(TracingHeaders.TRACE_ID_HEADER.toString()) != null ? request.getHeader(TracingHeaders.TRACE_ID_HEADER.toString()) : genId();
+      this.parentId = request.getHeader(TracingHeaders.SPAN_ID_HEADER.toString()) != null ? request.getHeader(TracingHeaders.SPAN_ID_HEADER.toString()) : genId();
    }
    
    private String genId(){
