@@ -16,26 +16,17 @@
 
   <packaging>jar</packaging>
   
+
   <repositories>
 
-    <repository>
-      <id>scala-tools.org</id>
-      <name>Scala-tools Maven2 Repository</name>
-      <url>http://scala-tools.org/repo-releases</url>
-    </repository>
+
 
     <repository>
       <id>twitter</id>
       <url>http://maven.twttr.com/</url>
     </repository>
 
-    <repository>
-      <id>mvnrepository</id>
-      <url>http://mvnrepository.com/</url>
-    </repository>
-
   </repositories>
-
   <dependencies>
 
     <!--
@@ -46,17 +37,17 @@
     </dependency>
 
       -->
-    <dependency>
-	  <groupId>org.apache.thrift</groupId>
-	  <artifactId>libthrift</artifactId>
-	  <version>0.6.1</version>
-    </dependency>
+      <dependency>
+         <groupId>org.apache.thrift</groupId>
+         <artifactId>libthrift</artifactId>
+         <version>0.9.0</version>
+      </dependency>
 
-    <dependency>
-        <groupId>org.apache.flume.flume-ng-sources</groupId>
-        <artifactId>flume-scribe-source</artifactId>
-        <version>1.3.1</version>
-    </dependency>
+      <dependency>
+         <groupId>org.apache.flume.flume-ng-sources</groupId>
+         <artifactId>flume-scribe-source</artifactId>
+         <version>1.3.1</version>
+      </dependency>
 
       <dependency>
          <groupId>org.springframework</groupId>
@@ -72,7 +63,7 @@
          <groupId>org.springframework</groupId>
          <artifactId>spring-context</artifactId>
       </dependency>
-    <!--
+      <!--
         <dependency>
          <groupId>com.twitter</groupId>
          <artifactId>finagle</artifactId>
@@ -94,24 +85,30 @@
          </exclusions>
       </dependency>
       -->
+    <dependency>
+      <groupId>com.twitter</groupId>
+      <artifactId>util-codec</artifactId>
+      <version>6.1.0</version>
+      <type>jar</type>
+    </dependency>
   </dependencies>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.jvnet.jaxb2.maven2</groupId>
-        <artifactId>maven-jaxb2-plugin</artifactId>
-        <configuration>
-          <specVersion>2.1</specVersion>
-          <schemaIncludes>
-            <include>**/*.xsd</include>
-          </schemaIncludes>
-          <bindingIncludes>
-            <include>**/*.xjb</include>
-          </bindingIncludes>
-          <strict>true</strict>
-          <verbose>false</verbose>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+   <build>
+      <plugins>
+         <plugin>
+            <groupId>org.jvnet.jaxb2.maven2</groupId>
+            <artifactId>maven-jaxb2-plugin</artifactId>
+            <configuration>
+               <specVersion>2.1</specVersion>
+               <schemaIncludes>
+                  <include>**/*.xsd</include>
+               </schemaIncludes>
+               <bindingIncludes>
+                  <include>**/*.xjb</include>
+               </bindingIncludes>
+               <strict>true</strict>
+               <verbose>false</verbose>
+            </configuration>
+         </plugin>
+      </plugins>
+   </build>
 </project>

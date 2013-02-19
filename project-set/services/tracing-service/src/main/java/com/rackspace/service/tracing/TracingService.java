@@ -9,7 +9,7 @@ public interface TracingService extends Destroyable {
    
    public void initialize(String scribeHost, int scribePort);
    
-   public void logTraceEvent(HttpServletRequest request);
+   public void logTraceEvent(GenericTrace genericTrace);
 
    public boolean isConnectionOpen();
    
