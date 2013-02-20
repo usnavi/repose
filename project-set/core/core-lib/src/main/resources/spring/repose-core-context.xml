@@ -56,6 +56,6 @@
         <constructor-arg index="0" value="LOG4J"/>
     </bean>
     
-    <bean id="tracingService" class="com.rackspace.tracing.impl.ThriftTracingServiceImpl" autowire="constructor"/>
+    <bean id="tracingService" class="com.rackspace.service.tracing.zipkin.ZipkinTracingServiceImpl" autowire="constructor"/>
 
 </beans>

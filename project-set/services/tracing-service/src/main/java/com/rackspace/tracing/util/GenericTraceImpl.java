@@ -6,7 +6,6 @@ package com.rackspace.tracing.util;
 
 import com.rackspace.service.tracing.GenericTrace;
 import com.rackspace.service.tracing.TraceAnnotation;
-import com.rackspace.tracing.util.TracingHeaders;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -56,6 +55,7 @@ public class GenericTraceImpl implements GenericTrace {
    }
    
    private String genId(){
+      Random rnd = new Random(System.currentTimeMillis());
       return String.valueOf(rnd.nextLong());
    }
 

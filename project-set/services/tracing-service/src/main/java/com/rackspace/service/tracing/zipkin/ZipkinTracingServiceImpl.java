@@ -76,11 +76,11 @@ public class ZipkinTracingServiceImpl implements TracingService {
          logEntries = new ArrayList<com.twitter.zipkin.gen.LogEntry>(1);
          TSocket sock = new TSocket(new Socket(scribeHost, scribePort));
          transport = new TFramedTransport(sock);
-         TBinaryProtocol protocol = new TBinaryProtocol(transport, false, false);
+         TBinaryProtocol tbprotocol = new TBinaryProtocol(transport, false, false);
 
          //client = new Client(protocol, protocol);
 
-         client = new ZipkinCollector.Client(protocol);
+         client = new ZipkinCollector.Client(tbprotocol);
 
       } catch (TTransportException e) {
          LOG.error("Unable to create socket for configured scribe host: " + scribeHost, e);
@@ -112,9 +112,7 @@ public class ZipkinTracingServiceImpl implements TracingService {
       if (isConnectionOpen()) {
          connect();
 
-         try {
-
-            
+         try {            
             String message = encodeSpan(SpanGenerator.generateSpanFromTrace(trace));
             com.twitter.zipkin.gen.LogEntry entry = new com.twitter.zipkin.gen.LogEntry(category, message);
             logEntries.add(entry);
@@ -128,14 +126,7 @@ public class ZipkinTracingServiceImpl implements TracingService {
          } finally {
             logEntries.clear();
          }
-
-
       }
-   }
-
-   private long getNextTraceId() {
-      // Using a random value to reduce chance of collision
-      return rnd.nextLong();
    }
 
    @Override
@@ -165,12 +156,7 @@ public class ZipkinTracingServiceImpl implements TracingService {
    }
 
    private String encodeSpan(Span thriftSpan) throws TException {
-      //String st = Base64StringEncoder$.MODULE$.encode(spanToBytes(thriftSpan));
-      //return Base64StringEncoder$.MODULE$.encode(spanToBytes(thriftSpan));
-      //return Base64.encodeBase64String(spanToBytes(thriftSpan));
-      return thriftSpan.toString();
-
-
+      return Base64StringEncoder$.MODULE$.encode(spanToBytes(thriftSpan));
    }
 
    private byte[] spanToBytes(Span thriftSpan) throws TException {
