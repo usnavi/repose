@@ -5,8 +5,8 @@ import com.rackspace.papi.commons.util.servlet.http.MutableHttpServletRequest;
 import com.rackspace.papi.commons.util.servlet.http.MutableHttpServletResponse;
 import com.rackspace.papi.domain.ReposeInstanceInfo;
 import com.rackspace.papi.filter.resource.ResourceMonitor;
-import com.rackspace.service.tracing.GenericTrace;
-import com.rackspace.service.tracing.TraceAnnotation;
+import com.rackspace.tracing.util.GenericTraceImpl;
+import com.rackspace.tracing.util.TraceAnnotationImpl;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -43,7 +43,7 @@ public class PowerFilterChain implements FilterChain {
    private boolean filterChainAvailable;
    private ReposeInstanceInfo instanceInfo;
    private TracingService tracingService;
-   private GenericTrace trace;
+   private GenericTraceImpl trace;
 
    public PowerFilterChain(List<FilterContext> filterChainCopy, FilterChain containerFilterChain, ResourceMonitor resourceMontior, PowerFilterRouter router,
            ReposeInstanceInfo instanceInfo, TracingService tracingService) throws PowerFilterChainException {
@@ -64,8 +64,8 @@ public class PowerFilterChain implements FilterChain {
       try {
          final HttpServletRequest request = (HttpServletRequest) servletRequest;
          tracer = new RequestTracer(traceRequest(request));
-         trace = new GenericTrace(request);
-         trace.annotateEvent(new TraceAnnotation("Repose Receive Request"));
+         trace = new GenericTraceImpl(request);
+         trace.annotateEvent(new TraceAnnotationImpl("Repose Receive Request"));
          currentFilters = getFilterChainForRequest(request.getRequestURI());
          filterChainAvailable = isCurrentFilterChainAvailable();
          servletRequest.setAttribute("filterChainAvailableForRequest", filterChainAvailable);
@@ -151,7 +151,7 @@ public class PowerFilterChain implements FilterChain {
          }
 
          if (isResponseOk(mutableHttpResponse)) {
-            trace.annotateEvent(new TraceAnnotation("Repose Forward Request"));
+            trace.annotateEvent(new TraceAnnotationImpl("Repose Forward Request"));
             tracingService.logTraceEvent(trace);
             router.route(mutableHttpRequest, mutableHttpResponse);
             

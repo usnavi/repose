@@ -12,7 +12,6 @@ import com.twitter.zipkin.gen.Endpoint;
 import com.twitter.zipkin.gen.Span;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.avro.generic.GenericData;
 
 
 public final class SpanGenerator {

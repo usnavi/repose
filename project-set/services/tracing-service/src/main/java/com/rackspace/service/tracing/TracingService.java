@@ -1,6 +1,7 @@
 
 package com.rackspace.service.tracing;
 
+import com.rackspace.tracing.util.GenericTraceImpl;
 import javax.security.auth.Destroyable;
 import javax.servlet.http.HttpServletRequest;
 

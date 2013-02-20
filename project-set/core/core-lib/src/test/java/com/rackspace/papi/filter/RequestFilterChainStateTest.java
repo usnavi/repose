@@ -6,7 +6,7 @@ import com.rackspace.papi.service.context.ServletContextHelper;
 import com.rackspace.papi.service.context.container.ContainerConfigurationService;
 import com.rackspace.papi.service.context.impl.RoutingServiceContext;
 import com.rackspace.service.tracing.TracingService;
-import com.rackspace.tracing.impl.ThriftTracingServiceImpl;
+import com.rackspace.service.tracing.zipkin.ZipkinTracingServiceImpl;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
@@ -50,7 +50,7 @@ public class RequestFilterChainStateTest {
             filterContextList.add(mockedFilterContext);
             FilterChain mockedFilterChain = mock(FilterChain.class);
             
-            TracingService tracingService = new ThriftTracingServiceImpl();
+            TracingService tracingService = new ZipkinTracingServiceImpl();
 
             ServletContextHelper instance = ServletContextHelper.configureInstance(context, appContext);
             when(context.getAttribute(ServletContextHelper.SERVLET_CONTEXT_HELPER)).thenReturn(instance);

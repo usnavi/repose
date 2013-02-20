@@ -4,54 +4,20 @@
  */
 package com.rackspace.service.tracing;
 
+import com.rackspace.tracing.util.TraceEndpointImpl;
 
-public class TraceAnnotation {
-   
-   private long timeStamp;
-   private String value;
-   private TraceEndpoint endpoint;
-   private String duration;
+public interface TraceAnnotation {
 
-   public TraceAnnotation(long timeStamp, String value) {
-      this.timeStamp = timeStamp;
-      this.value = value;
-      this.endpoint = new TraceEndpoint();
-   }
-   
-   public TraceAnnotation(String value){
-      this.value = value;
-      this.timeStamp = System.currentTimeMillis();
-      this.endpoint = new TraceEndpoint();
-   }
+   String getDuration();
 
+   TraceEndpoint getEndpoint();
 
-   public void setDuration(String duration) {
-      this.duration = duration;
-   }
+   long getTimeStamp();
 
-   public long getTimeStamp() {
-      return timeStamp;
-   }
+   String getValue();
 
-   public String getValue() {
-      return value;
-   }
+   boolean isEndpointSet();
 
-
-   public String getDuration() {
-      return duration;
-   }
-   
-   public boolean isEndpointSet(){
-      return endpoint.getIp().isEmpty()|| endpoint.getIp().isEmpty() ? false : true;
-   }
-   
-   public TraceEndpoint getEndpoint(){
-      return endpoint;
-   }
-   
-   
-   
-   
+   void setDuration(String duration);
    
 }

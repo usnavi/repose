@@ -5,51 +5,18 @@
 package com.rackspace.service.tracing;
 
 
-public class TraceEndpoint {
-   
-   private String ip;
-   private String port;
-   private String name;
+public interface TraceEndpoint {
 
-   public TraceEndpoint(String ip, String port, String name) {
-      this.ip = ip;
-      this.port = port;
-      this.name = name;
-   }
+   String getIp();
 
-   public TraceEndpoint(String ip, String port) {
-      this(ip,port,"");
-   }
-   
-   public TraceEndpoint(){
-      this("","","");
-   }
+   String getName();
 
-   public String getIp() {
-      return ip;
-   }
+   String getPort();
 
-   public String getPort() {
-      return port;
-   }
+   void setIp(String ip);
 
-   public String getName() {
-      return name;
-   }
+   void setName(String name);
 
-   public void setIp(String ip) {
-      this.ip = ip;
-   }
-
-   public void setPort(String port) {
-      this.port = port;
-   }
-
-   public void setName(String name) {
-      this.name = name;
-   }
-   
-   
-   
+   void setPort(String port);
    
 }

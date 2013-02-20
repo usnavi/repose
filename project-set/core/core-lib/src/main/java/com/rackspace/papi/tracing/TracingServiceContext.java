@@ -13,7 +13,7 @@ import com.rackspace.papi.service.context.ServiceContext;
 import com.rackspace.papi.service.deploy.ContainerConfigurationListener;
 import com.rackspace.papi.service.headers.request.RequestHeaderService;
 import com.rackspace.service.tracing.TracingService;
-import com.rackspace.tracing.impl.ThriftTracingServiceImpl;
+import com.rackspace.service.tracing.zipkin.ZipkinTracingServiceImpl;
 import java.net.URL;
 import javax.servlet.ServletContextEvent;
 import org.springframework.beans.factory.annotation.Autowired;

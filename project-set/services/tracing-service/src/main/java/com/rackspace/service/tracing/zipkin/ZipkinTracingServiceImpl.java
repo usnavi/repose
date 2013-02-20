@@ -2,9 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.rackspace.tracing.impl;
+package com.rackspace.service.tracing.zipkin;
 
 import com.rackspace.service.tracing.GenericTrace;
+import com.rackspace.tracing.util.GenericTraceImpl;
 import com.rackspace.service.tracing.TracingService;
 import com.rackspace.tracing.util.SpanGenerator;
 import com.twitter.util.Base64StringEncoder$;
@@ -39,7 +40,7 @@ import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
 @Component("tracingService")
-public class ThriftTracingServiceImpl implements TracingService {
+public class ZipkinTracingServiceImpl implements TracingService {
 
    private String scribeHost;
    private int scribePort;
@@ -49,12 +50,12 @@ public class ThriftTracingServiceImpl implements TracingService {
    private ZipkinCollector.Client client;
    public Charset charset = Charset.forName("UTF-8");
    public CharsetEncoder encoder = charset.newEncoder();
-   private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(ThriftTracingServiceImpl.class);
+   private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(ZipkinTracingServiceImpl.class);
    private String category;
    private TProtocolFactory protocol;
    private final Random rnd = new Random();
 
-   public ThriftTracingServiceImpl() {
+   public ZipkinTracingServiceImpl() {
    }
 
    @Override
