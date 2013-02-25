@@ -1,5 +1,6 @@
 package com.rackspace.papi.service.context.spring;
 
+import com.rackspace.papi.jmx.ConfigurationInformationMBean;
 import com.rackspace.papi.service.classloader.ClassLoaderManagerService;
 import com.rackspace.papi.service.config.ConfigurationService;
 import com.rackspace.papi.service.context.ContextAdapter;
@@ -140,4 +141,10 @@ public class SpringContextAdapter implements ContextAdapter {
     public TracingService getTracingService(){
        return getService(ServiceContextName.TRACING_SERVICE_CONTEXT);
     }
+    
+    @Override
+    public <T> T  reposeConfigurationInformation() {
+        return (T) applicationContext.getBean(ServiceContextName.REPOSE_CONFIGURATION_INFORMATION.getServiceContextName());
+    }
 }
+  

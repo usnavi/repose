@@ -35,6 +35,7 @@ public interface ContextAdapter {
     ResponseHeaderService responseHeaderService();
     TracingService getTracingService();
     <T> T filterChainBuilder();
+    <T> T  reposeConfigurationInformation();
     
    <T extends ServiceContext<?>> T getContext(Class<T> clazz);
 
