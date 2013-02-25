@@ -6,6 +6,7 @@ package com.rackspace.tracing.util;
 
 import com.rackspace.service.tracing.GenericTrace;
 import com.rackspace.service.tracing.TraceAnnotation;
+import com.rackspace.service.tracing.TraceBinaryAnnotation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -23,6 +24,7 @@ public class GenericTraceImpl implements GenericTrace {
    String parentId;
    private final Random rnd = new Random();
    private List<TraceAnnotation> annotations;
+   private List<TraceBinaryAnnotation> binaryAnnotations;
 
    public GenericTraceImpl(String traceId, String spanId, String name, String parentId) {
       this(traceId, spanId);
@@ -36,6 +38,7 @@ public class GenericTraceImpl implements GenericTrace {
       this.spanId = spanId;
       this.name = DEFAULT_NAME;
       annotations = new ArrayList<TraceAnnotation>();
+      binaryAnnotations = new ArrayList<TraceBinaryAnnotation>();
    }
    
    
@@ -45,6 +48,7 @@ public class GenericTraceImpl implements GenericTrace {
       this.name = DEFAULT_NAME;
       this.spanId = genId();
       annotations = new ArrayList<TraceAnnotation>();
+      binaryAnnotations = new ArrayList<TraceBinaryAnnotation>();
    }
 
    private void determineSpan(HttpServletRequest request) {
@@ -87,6 +91,16 @@ public class GenericTraceImpl implements GenericTrace {
    @Override
    public String getParentId() {
       return parentId;
+   }
+
+   @Override
+   public List<TraceBinaryAnnotation> getBinaryAnnotations() {
+      return binaryAnnotations;
+   }
+
+   @Override
+   public void annotateEvent(TraceBinaryAnnotation annotation) {
+      binaryAnnotations.add(annotation);
    }
    
    

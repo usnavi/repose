@@ -11,8 +11,12 @@ import java.util.List;
 public interface GenericTrace {
 
    void annotateEvent(TraceAnnotation annotation);
+   
+   void annotateEvent(TraceBinaryAnnotation annotation);
 
    List<TraceAnnotation> getAnnotations();
+   
+   List<TraceBinaryAnnotation> getBinaryAnnotations();
 
    String getName();
 

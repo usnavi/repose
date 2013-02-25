@@ -13,6 +13,10 @@ public interface TraceBinaryAnnotation {
    
    boolean isEndpointSet();
    
-   void setEndpoint();
+   void setEndpoint(TraceEndpoint endpoint);
+   
+   TraceAnnotationType getType();
+   
+   TraceEndpoint getEndpoint();
    
 }

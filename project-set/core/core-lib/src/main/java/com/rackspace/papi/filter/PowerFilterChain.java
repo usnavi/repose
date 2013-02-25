@@ -5,6 +5,8 @@ import com.rackspace.papi.commons.util.servlet.http.MutableHttpServletRequest;
 import com.rackspace.papi.commons.util.servlet.http.MutableHttpServletResponse;
 import com.rackspace.papi.domain.ReposeInstanceInfo;
 import com.rackspace.papi.filter.resource.ResourceMonitor;
+import com.rackspace.papi.tracing.BinaryAnnotationBuilder;
+import com.rackspace.service.tracing.GenericTrace;
 import com.rackspace.tracing.util.GenericTraceImpl;
 import com.rackspace.tracing.util.TraceAnnotationImpl;
 import java.io.IOException;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.rackspace.service.tracing.TracingService;
+import com.twitter.zipkin.gen.BinaryAnnotation;
 
 /**
  * @author fran
@@ -43,7 +46,7 @@ public class PowerFilterChain implements FilterChain {
    private boolean filterChainAvailable;
    private ReposeInstanceInfo instanceInfo;
    private TracingService tracingService;
-   private GenericTraceImpl trace;
+   private GenericTrace trace;
 
    public PowerFilterChain(List<FilterContext> filterChainCopy, FilterChain containerFilterChain, ResourceMonitor resourceMontior, PowerFilterRouter router,
            ReposeInstanceInfo instanceInfo, TracingService tracingService) throws PowerFilterChainException {
@@ -152,6 +155,7 @@ public class PowerFilterChain implements FilterChain {
 
          if (isResponseOk(mutableHttpResponse)) {
             trace.annotateEvent(new TraceAnnotationImpl("Repose Forward Request"));
+            trace.getBinaryAnnotations().addAll(BinaryAnnotationBuilder.buildAnnotationsFromRequest(mutableHttpRequest));
             tracingService.logTraceEvent(trace);
             router.route(mutableHttpRequest, mutableHttpResponse);
             
