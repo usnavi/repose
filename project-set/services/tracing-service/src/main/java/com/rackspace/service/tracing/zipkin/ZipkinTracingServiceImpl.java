@@ -5,27 +5,21 @@
 package com.rackspace.service.tracing.zipkin;
 
 import com.rackspace.service.tracing.GenericTrace;
-import com.rackspace.tracing.util.GenericTraceImpl;
 import com.rackspace.service.tracing.TracingService;
 import com.rackspace.tracing.util.SpanGenerator;
 import com.twitter.util.Base64StringEncoder$;
-import com.twitter.zipkin.gen.Annotation;
-import com.twitter.zipkin.gen.BinaryAnnotation;
 import com.twitter.zipkin.gen.Endpoint;
+import com.twitter.zipkin.gen.ResultCode;
 import com.twitter.zipkin.gen.Span;
 import com.twitter.zipkin.gen.ZipkinCollector;
 import java.io.ByteArrayOutputStream;
 import java.net.Socket;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import javax.security.auth.DestroyFailedException;
-import javax.servlet.http.HttpServletRequest;
-import org.apache.commons.codec.binary.Base64;
 
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.transport.TSocket;
@@ -85,7 +79,7 @@ public class ZipkinTracingServiceImpl implements TracingService {
       } catch (TTransportException e) {
          LOG.error("Unable to create socket for configured scribe host: " + scribeHost, e);
       } catch (Exception e) {
-         LOG.error("Unable to connect to scribe instance: " + scribeHost + ":" + scribePort, e);
+         LOG.error("Unable to connect to scribe instance: " + scribeHost + ":" + scribePort, e.getMessage());
       }
    }
 
@@ -111,13 +105,14 @@ public class ZipkinTracingServiceImpl implements TracingService {
 
       if (isConnectionOpen()) {
          connect();
-
+         
+         ResultCode code;
          try {            
             String message = encodeSpan(SpanGenerator.generateSpanFromTrace(trace));
             com.twitter.zipkin.gen.LogEntry entry = new com.twitter.zipkin.gen.LogEntry(category, message);
             logEntries.add(entry);
 
-            client.Log(logEntries);
+            code = client.Log(logEntries);
          } catch (TTransportException e) {
             LOG.warn("Unable to open transport to scribe host: " + scribeHost + ":" + scribePort);
             transport.close();
